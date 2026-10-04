@@ -1,0 +1,21 @@
+SKOON Portal v2 — checkpoint / نقطة الاستئناف
+Source: SKOON_Portal_Complete.rar; original retained unchanged.
+Design references: upload/image.png, upload/image(1).png, upload/image(2).png.
+Implementation: shared app.js renderer + bilingual dictionary, style.css theme, 10 HTML routes.
+Before: original per-page English strings, browser credential/session model, hardcoded project values.
+After: complete bilingual design prototype, lang query + stored preference, shared route renderer; explicitly demo sessions, no real passwords or project records in published assets.
+Execution: results.json — 20 desktop + 20 mobile route checks, 6 interaction checks; 0 runtime errors, 0 overflow, 0 missing visible images, 0 unexpected English UI text in Arabic route scan.
+Visual coverage: 40 full-page screenshots + desktop/mobile inspection contact sheets.
+Passed: Arabic navigation, project link, dynamic contractor tabs, form values across language switch, localized local-draft status.
+Deployment source commit: 89fd955b3137ee41960bf6d5a4f49db6a652e8ac
+Limitations / حدود التحليل: design prototype; no production authentication, server authorization, secure document connection, live AI or actual submission delivery. Original project fields not verified or migrated into the demonstration. One browser engine; desktop 1440x1000 and mobile 390x844, not physical devices.
+Next: connect one approved project to secure server authentication and project-scoped authorized data. Keep current frontend language dictionary and route renderer.
+
+Execution trace anchors (line numbers in delivered files):
+website/app.js:3 — dictionary
+website/app.js:13 — language resolution
+website/app.js:20 — route linking
+website/app.js:45 — render & language direction
+website/app.js:46 — language switching & draft preservation
+website/style.css:9 — mobile hero card moved from overlapping absolute positioning to relative document flow; re-rendered screenshot confirms buttons clear in both languages.
+Before references: original app.js:193-201 (language), app.js:207-225 (demo passwords), project-detail.html:535-537 (currentProject selection). No production-security fix claimed; demo replaces the credential UI.

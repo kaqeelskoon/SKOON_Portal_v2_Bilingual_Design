@@ -1,0 +1,313 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "route": "index",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "client-login",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "employee-login",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-client",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-employee",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-admin",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-contractor",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-developer",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "project-detail",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "quotation",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "index",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "client-login",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "employee-login",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-client",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-employee",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-admin",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-contractor",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "dashboard-developer",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "project-detail",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "route": "quotation",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "broken": [],
+      "english": []
+    },
+    {
+      "test": "language-navigation-ar",
+      "url": "http://127.0.0.1:8765/dashboard-client.html?lang=ar",
+      "lang": "ar"
+    },
+    {
+      "test": "project-link-ar",
+      "url": "http://127.0.0.1:8765/project-detail.html?lang=ar",
+      "lang": "ar"
+    },
+    {
+      "test": "form-state-language-switch",
+      "name": "QA Test",
+      "lang": "ar"
+    },
+    {
+      "test": "local-draft-save-ar",
+      "message": "تم حفظ المسودة على هذا الجهاز. لم تُرسل إلى سكون."
+    },
+    {
+      "test": "contractor-role-ar",
+      "url": "http://127.0.0.1:8765/dashboard-contractor.html?lang=ar",
+      "lang": "ar"
+    },
+    {
+      "test": "dynamic-tab-ar",
+      "text": "رفع العرض وإصدار إيصال الاستلام يتاحان بعد الربط الآمن للمناقصات."
+    },
+    {
+      "test": "mobile",
+      "route": "index",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "client-login",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "employee-login",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-client",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-employee",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-admin",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-contractor",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-developer",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "project-detail",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "quotation",
+      "lang": "en",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "index",
+      "lang": "ar",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "client-login",
+      "lang": "ar",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "employee-login",
+      "lang": "ar",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-client",
+      "lang": "ar",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-employee",
+      "lang": "ar",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-admin",
+      "lang": "ar",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-contractor",
+      "lang": "ar",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "dashboard-developer",
+      "lang": "ar",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "project-detail",
+      "lang": "ar",
+      "overflow": false
+    },
+    {
+      "test": "mobile",
+      "route": "quotation",
+      "lang": "ar",
+      "overflow": false
+    }
+  ]
+}
