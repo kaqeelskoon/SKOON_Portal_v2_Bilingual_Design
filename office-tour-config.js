@@ -3,15 +3,15 @@
    The current language is appended automatically as ?lang=en or ?lang=ar.
    Keep null until that destination is available. Never put credentials here. */
 window.SKOON_OFFICE_CONFIG = {
-  version: '1.0.0',
+  version: '1.1.0',
   website: 'index.html',
   autoplay: true,
   links: {
-    projects: { en: null, ar: null },
-    client: { en: null, ar: null },
-    tender: { en: null, ar: null },
-    meeting: { en: null, ar: null },
-    team: { en: null, ar: null },
-    assistant: { en: null, ar: null }
+    projects: { en: 'reception.html?view=projects', ar: 'reception.html?view=projects' },
+    client: { en: 'reception.html?view=client', ar: 'reception.html?view=client' },
+    tender: { en: 'reception.html?view=tender', ar: 'reception.html?view=tender' },
+    meeting: { en: 'reception.html?view=meeting', ar: 'reception.html?view=meeting' },
+    team: { en: 'reception.html?view=team', ar: 'reception.html?view=team' },
+    assistant: { en: 'reception.html?view=assistant', ar: 'reception.html?view=assistant' }
   }
 };
