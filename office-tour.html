@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101716">
+<meta name="description" content="Step inside SKOON Architecture. Explore our real office through an interactive video walkthrough.">
+<title>Virtual Office | SKOON Architecture</title>
+<link rel="stylesheet" href="office-tour.css?v=1.0.0">
+<script defer src="office-tour-config.js?v=1.0.0"></script>
+<script defer src="office-tour-model.js?v=1.0.0"></script>
+<script defer src="office-tour.js?v=1.0.0"></script>
+</head>
+<body>
+<div id="office-app">
+  <main class="viewport" id="viewport" aria-label="Office video walkthrough">
+    <video id="tour-video" muted playsinline preload="auto" poster="assets/office/entrance-v1.jpg" aria-label="SKOON office walkthrough"></video>
+    <div class="cinema-shade" aria-hidden="true"></div>
+    <header class="topbar">
+      <div class="brand"><span class="wordmark" dir="ltr"><b>SKOON</b><small>ARCHITECTURE</small></span><span class="brand-divider"></span><span data-i18n="office">Virtual office</span></div>
+      <div class="top-actions"><button id="help" class="icon-btn" data-title="help" aria-label="Help">?</button><button id="language" class="language">العربية</button><button id="website" class="site-btn"><span data-i18n="website">Visit website</span><span aria-hidden="true">↗</span></button></div>
+    </header>
+    <section class="scene-copy" aria-live="polite" aria-atomic="true">
+      <div class="eyebrow"><span class="live-dot"></span><span data-i18n="eyebrow">SKOON ARCHITECTURE · DUBAI</span></div>
+      <div class="scene-number"><bdi id="scene-number">01</bdi><span>/</span><bdi>06</bdi><span class="scene-line"></span></div>
+      <h1 id="scene-title">A door to our world.</h1><p id="scene-description">Step inside the real SKOON office. Your journey starts here.</p>
+      <button id="services" class="gold-btn"><span data-i18n="services">Explore services</span><span aria-hidden="true">↗</span></button>
+      <p class="format-label" data-i18n="format">Interactive video walkthrough</p>
+    </section>
+    <nav id="scene-nav" class="scene-nav" aria-label="Office areas"></nav>
+    <button class="spatial-hotspot" id="spatial-hotspot"><span class="hotspot-ring" aria-hidden="true">+</span><span class="hotspot-label" id="hotspot-label">Ask SKOON</span></button>
+    <button id="next-point" class="next-point"><span class="floor-ring" aria-hidden="true">↑</span><span id="next-label">Step inside</span></button>
+    <button class="start-play" id="start-play" hidden><span aria-hidden="true">▶</span><span data-i18n="start">Start the tour</span></button>
+    <div class="media-status" id="media-status" role="status" hidden></div>
+    <div class="tools"><button id="zoom-out" class="icon-btn" data-title="zoomOut" aria-label="Zoom out">−</button><output id="zoom-value">100%</output><button id="zoom-in" class="icon-btn" data-title="zoomIn" aria-label="Zoom in">+</button><button id="fullscreen" class="icon-btn" data-title="fullscreen" aria-label="Fullscreen">⛶</button></div>
+    <footer class="tour-footer">
+      <div class="playback">
+        <div class="transport"><button id="previous" class="icon-btn" data-title="previous" aria-label="Previous area">‹</button><button id="play" class="play-btn" aria-label="Play">▶</button><button id="next" class="icon-btn" data-title="next" aria-label="Next area">›</button></div>
+        <div class="timeline"><label for="scrubber" class="sr-only" data-i18n="seek">Position in this area</label><input id="scrubber" type="range" min="0" max="1000" step="1" value="0"><div class="timeline-label"><span id="area-name">Entrance</span><bdi id="time">00:00 / 00:18</bdi></div></div>
+        <button id="guided" class="guided" aria-pressed="true"><span class="switch-dot"></span><span data-i18n="guided">Guided tour</span></button>
+      </div>
+      <div class="footer-note"><span data-i18n="footer">A real office. A new way to connect.</span><span id="global-progress" aria-hidden="true"></span><span data-i18n="silent">Silent walkthrough</span></div>
+    </footer>
+  </main>
+</div>
+<dialog id="services-dialog" class="services-dialog" aria-labelledby="services-title">
+  <div class="dialog-head"><div><span class="eyebrow" data-i18n="destinations">YOUR NEXT DESTINATION</span><h2 id="services-title" data-i18n="servicesTitle">Beyond the office.</h2></div><button class="icon-btn close-dialog" data-title="close" aria-label="Close">×</button></div>
+  <p class="dialog-intro" data-i18n="servicesIntro">Choose where your SKOON experience takes you next. Destinations become available when their pages are connected.</p>
+  <div id="destination-grid" class="destination-grid"></div>
+  <p class="dialog-foot" data-i18n="servicesFoot">This tour uses footage of the real office. Service destinations are configured separately.</p>
+</dialog>
+<dialog id="destination-dialog" class="detail-dialog" aria-labelledby="destination-title"><button class="icon-btn close-dialog" data-title="close" aria-label="Close">×</button><span class="eyebrow" data-i18n="proposed">PROPOSED DESTINATION</span><h2 id="destination-title"></h2><p id="destination-description"></p><p class="connection-state" id="destination-state"></p><button class="gold-btn close-dialog" data-i18n="continue">Continue exploring</button></dialog>
+<dialog id="help-dialog" class="detail-dialog" aria-labelledby="help-title"><button class="icon-btn close-dialog" data-title="close" aria-label="Close">×</button><span class="eyebrow" data-i18n="welcome">WELCOME INSIDE</span><h2 id="help-title" data-i18n="helpTitle">Make yourself at home.</h2><p data-i18n="helpBody">The tour starts automatically without sound. Select an area from the thumbnails, use the arrows to move between areas, or pause to explore. The + points introduce proposed service destinations.</p><p data-i18n="helpKeys">Keyboard: left/right arrows switch areas; Space plays or pauses. Zoom in, then drag to inspect the frame.</p><p class="connection-state" data-i18n="helpLimit">Recorded video walkthrough — the camera follows the original filming path. Free 360° movement and headset VR are not part of this version.</p><button class="gold-btn close-dialog" data-i18n="continue">Continue exploring</button></dialog>
+<noscript><div class="noscript">Please enable JavaScript to explore the office. يرجى تفعيل جافاسكريبت لاستكشاف المكتب. <a href="index.html?office=skip">Website / الموقع</a></div></noscript>
+</body></html>
