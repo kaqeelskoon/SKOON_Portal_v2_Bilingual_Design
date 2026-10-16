@@ -4,7 +4,7 @@ const M=window.SKOONOfficeModel,C=window.SKOON_OFFICE_CONFIG||{},q=s=>document.q
 const video=q('#tour-video'),viewport=q('#viewport');
 const params=new URLSearchParams(location.search);
 let savedLanguage;try{savedLanguage=localStorage.getItem('language');}catch{}
-let lang=M.language(params.get('lang')||savedLanguage),index=M.sceneIndex(params.get('scene'));
+let lang=M.language(params.get('lang')||'en'),index=M.sceneIndex(params.get('scene'));
 let guided=true,zoom=1,panX=0,panY=0,drag=null,resumeAfterDialog=false,requestId=0,statusTimer;
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const T=k=>M.pick(M.copy[k],lang),text=(node,value)=>{node.textContent=value;};
