@@ -1,8 +1,11 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
-      "destination": "/build-hub/index.html"
+      "src": "^/$",
+      "dest": "/build-hub/index.html"
+    },
+    {
+      "handle": "filesystem"
     }
   ]
 }
