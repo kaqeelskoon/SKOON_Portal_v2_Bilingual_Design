@@ -25,7 +25,7 @@ jobs:
         run: node --test tests/build-hub-i18n.test.cjs
 
   browser-e2e-evidence:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
       contents: read
