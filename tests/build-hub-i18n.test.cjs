@@ -78,3 +78,20 @@ test('SKOON portal link preserves selected language without rewriting external l
   assert.match(js, /u\.searchParams\.set\('lang',lang\)/);
   assert.match(js, /safe\(companyHref\(c\)\)/);
 });
+
+test('execute real companyHref for both languages without modifying external URLs', () => {
+  const vm = require('node:vm');
+  const {URL} = require('node:url');
+  const match = js.match(/function companyHref\(c\)\{[^\n]+\}/);
+  assert.ok(match, 'companyHref must be found in app.js');
+  for (const lang of ['ar', 'en']) {
+    const context = vm.createContext({URL, lang});
+    const href = vm.runInContext(match[0] + '; companyHref', context);
+    const skoon = {id:'skoon', url:'https://skoonaiv2.vercel.app/index.html'};
+    assert.equal(href(skoon), 'https://skoonaiv2.vercel.app/index.html?lang=' + lang);
+    const external = {id:'external-vendor', url:'https://example.org/supplier?existing=1'};
+    assert.equal(href(external), external.url);
+    const otherSkoon = {id:'skoon', url:'https://example.org/unexpected'};
+    assert.equal(href(otherSkoon), otherSkoon.url);
+  }
+});
