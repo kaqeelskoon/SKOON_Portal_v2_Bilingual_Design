@@ -80,4 +80,44 @@ test('Stage 7 browser: real popup, bilingual RTL, and responsive viewport/screen
       } finally {await ctx.close();}
     });
   }
+
+  // Stage 8: verify historical browser-only directory states without rewriting existing user data.
+  for (const scenario of [
+    {label:'legacy-v1-preserves-custom-entries',schemaVersion:1,skoonUrl:'',customUrl:'https://example.org/my-firm',expectedSchema:2},
+    {label:'current-v2-preserves-custom-entries',schemaVersion:2,skoonUrl:'https://skoonaiv2.vercel.app/index.html',customUrl:'https://example.org/my-firm',expectedSchema:2}
+  ]) {
+    await t.test(scenario.label, async()=>{
+      const ctx=await browser.newContext({viewport:{width:390,height:844}});
+      try {
+        const categories=[{id:'consultants',en:'Consultants',ar:'الاستشاريون',icon:'consultant',descEn:'Consultants',descAr:'استشاريون'}];
+        const companies=[
+          {id:'skoon',category:'consultants',en:'SKOON Architecture',ar:'سكون للاستشارات الهندسية',url:scenario.skoonUrl},
+          {id:'customer-custom',category:'consultants',en:'My Firm',ar:'شركتي',url:scenario.customUrl}
+        ];
+        await ctx.addInitScript(({directory})=>{
+          localStorage.setItem('skoon-build-directory-v1',JSON.stringify(directory));
+          localStorage.setItem('skoon-hub-lang','ar');
+        },{directory:{categories,companies,schemaVersion:scenario.schemaVersion}});
+        const page=await ctx.newPage();
+        await page.goto(origin+'/build-hub/',{waitUntil:'load'});
+        assert.equal(await page.locator('html').getAttribute('lang'),'ar');
+        assert.equal(await page.locator('html').getAttribute('dir'),'rtl');
+        await page.locator('[data-category="consultants"]').click();
+        const skoon=page.locator('.card.company.featured');
+        if(scenario.skoonUrl===''){
+          assert.equal(await page.locator('button.card.company.featured[data-pending="1"]').count(),1,
+            'A historically blank URL stays pending; do not overwrite user data');
+        } else {
+          assert.equal(await page.locator('a.card.company.featured').getAttribute('href'),
+            'https://skoonaiv2.vercel.app/index.html?lang=ar');
+        }
+        assert.equal(await page.locator('a.card.company').filter({hasText:'شركتي'}).getAttribute('href'),
+          scenario.customUrl);
+        const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('skoon-build-directory-v1')));
+        assert.equal(stored.schemaVersion,scenario.expectedSchema);
+        assert.equal(stored.companies.find(c=>c.id==='skoon').url,scenario.skoonUrl);
+        assert.equal(stored.companies.find(c=>c.id==='customer-custom').url,scenario.customUrl);
+      } finally {await ctx.close();}
+    });
+  }
 });
