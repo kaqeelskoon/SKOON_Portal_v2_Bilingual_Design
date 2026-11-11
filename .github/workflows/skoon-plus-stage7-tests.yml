@@ -1,0 +1,25 @@
+name: SKOON Plus Stage 7 source regression
+on:
+  push:
+    branches:
+      - skoon-plus/stage7-release-candidate-20261111
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bilingual-static-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact branch commit
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JS syntax
+        run: |
+          node --check build-hub/app.js
+          node --check tests/build-hub-i18n.test.cjs
+      - name: Execute static regression suite
+        run: node --test tests/build-hub-i18n.test.cjs
