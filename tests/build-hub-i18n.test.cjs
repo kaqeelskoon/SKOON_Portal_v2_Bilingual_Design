@@ -95,3 +95,33 @@ test('execute real companyHref for both languages without modifying external URL
     assert.equal(href(otherSkoon), otherSkoon.url);
   }
 });
+
+test('execute real renderCards: URL company must render anchor and pending card must render button', () => {
+  const vm = require('node:vm');
+  const source = js.match(/function renderCards\(\)\{[^\n]+\}/);
+  assert.ok(source, 'renderCards source not found');
+  for (const lang of ['en','ar']) {
+    const cards = {innerHTML:''};
+    const count = {textContent:''};
+    const empty = {hidden:true};
+    const search = {value:''};
+    const nodes = {'#search':search,'#count':count,'#empty':empty,'#cards':cards};
+    const data = {companies:[
+      {id:'skoon',en:'SKOON Architecture',ar:'سكون للاستشارات الهندسية',category:'consultants',url:'https://skoonaiv2.vercel.app/index.html'},
+      {id:'slot-consultants-2',en:'Consultant 2',ar:'استشاري رقم 2',category:'consultants',url:'',demo:true,slotNumber:2}
+    ],categories:[]};
+    const context = vm.createContext({
+      lang, selected:'consultants',data,URL:require('node:url').URL,
+      $: key => nodes[key],
+      t: key => ({companyCount:'companies',demo:'Demo',demoInfo:'Demo card',companyInfo:'Company details',visit:'Visit website',pending:'Website coming soon',addCompany:'Add company',addCompanySub:'Add listing'})[key]||key,
+      safe: value => String(value??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),
+      companyArtwork:()=>'<svg></svg>',
+      companyHref: company => company.id==='skoon'?company.url+'?lang='+lang:company.url,
+      svg:()=>'<svg></svg>'
+    });
+    vm.runInContext(source[0]+'; renderCards()',context);
+    assert.match(cards.innerHTML, new RegExp('<a class="card company featured" href="https://skoonaiv2\\.vercel\\.app/index\\.html\\?lang='+lang+'" target="_blank"'));
+    assert.match(cards.innerHTML, /<button class="card company [^"]*" data-pending="1">/);
+    assert.equal((cards.innerHTML.match(/data-pending="1"/g)||[]).length,1);
+  }
+});
