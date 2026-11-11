@@ -120,4 +120,32 @@ test('Stage 7 browser: real popup, bilingual RTL, and responsive viewport/screen
       } finally {await ctx.close();}
     });
   }
+  // Stage 8: malformed and untrusted stored data must not execute or be destroyed.
+  for (const scenario of [
+    {label:'malformed-json-is-preserved',raw:'{bad json'},
+    {label:'unsafe-url-is-rejected-without-overwrite',raw:JSON.stringify({
+      schemaVersion:2,
+      categories:[{id:'consultants',en:'Consultants',ar:'الاستشاريون',icon:'consultant'}],
+      companies:[{id:'untrusted',category:'consultants',en:'Unsafe',ar:'غير آمن',url:'javascript:alert(1)'}]
+    })}
+  ]) {
+    await t.test(scenario.label, async()=>{
+      const ctx=await browser.newContext({viewport:{width:390,height:844}});
+      try {
+        await ctx.addInitScript(({raw})=>{
+          localStorage.setItem('skoon-build-directory-v1',raw);
+        },{raw:scenario.raw});
+        const page=await ctx.newPage();
+        const errors=[];
+        page.on('pageerror',e=>errors.push(e.message));
+        await page.goto(origin+'/build-hub/',{waitUntil:'load'});
+        assert.equal(await page.locator('.category-card').count(),6,
+          'Untrusted storage must not override the known default directory');
+        assert.equal(await page.evaluate(()=>localStorage.getItem('skoon-build-directory-v1')),
+          scenario.raw,'Invalid user storage must not be silently overwritten or deleted');
+        assert.deepEqual(errors,[],'Stored data must not trigger page script exceptions');
+      } finally {await ctx.close();}
+    });
+  }
+
 });
