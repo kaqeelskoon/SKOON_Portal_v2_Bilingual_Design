@@ -1,0 +1,37 @@
+name: SKOON Plus Stage 9 isolated prototype QA
+on:
+  push:
+    branches:
+      - skoon-plus/stage9-directory-admin-prototype-20261112
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  stage9-browser-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact Stage 9 branch commit
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate isolated prototype JS
+        run: |
+          node --check stage9-admin-prototype/app.js
+          node --check tests/stage9-admin-prototype.test.cjs
+      - name: Install pinned browser test tool
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Execute bilingual browser QA
+        run: node --test tests/stage9-admin-prototype.test.cjs
+      - name: Archive screenshots under QS only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage9-isolated-admin-prototype-qa
+          path: QS/stage9-prototype-evidence/*.png
+          if-no-files-found: warn
+          retention-days: 14
