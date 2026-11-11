@@ -117,6 +117,7 @@ test('Stage 7 browser: real popup, bilingual RTL, and responsive viewport/screen
         assert.equal(stored.schemaVersion,scenario.expectedSchema);
         assert.equal(stored.companies.find(c=>c.id==='skoon').url,scenario.skoonUrl);
         assert.equal(stored.companies.find(c=>c.id==='customer-custom').url,scenario.customUrl);
+        await page.screenshot({path:path.join(evidence,'stage8-'+scenario.label+'.png'),fullPage:true});
       } finally {await ctx.close();}
     });
   }
@@ -144,6 +145,7 @@ test('Stage 7 browser: real popup, bilingual RTL, and responsive viewport/screen
         assert.equal(await page.evaluate(()=>localStorage.getItem('skoon-build-directory-v1')),
           scenario.raw,'Invalid user storage must not be silently overwritten or deleted');
         assert.deepEqual(errors,[],'Stored data must not trigger page script exceptions');
+        await page.screenshot({path:path.join(evidence,'stage8-'+scenario.label+'.png'),fullPage:true});
       } finally {await ctx.close();}
     });
   }
