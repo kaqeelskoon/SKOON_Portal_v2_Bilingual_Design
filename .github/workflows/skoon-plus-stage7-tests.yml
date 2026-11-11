@@ -2,7 +2,7 @@ name: SKOON Plus Stage 7 source regression
 on:
   push:
     branches:
-      - skoon-plus/stage7-release-candidate-20261111
+      - skoon-plus/stage8-legacy-qa-20261112
   workflow_dispatch:
 permissions:
   contents: read

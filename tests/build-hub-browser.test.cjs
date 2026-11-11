@@ -80,4 +80,74 @@ test('Stage 7 browser: real popup, bilingual RTL, and responsive viewport/screen
       } finally {await ctx.close();}
     });
   }
+
+  // Stage 8: verify historical browser-only directory states without rewriting existing user data.
+  for (const scenario of [
+    {label:'legacy-v1-preserves-custom-entries',schemaVersion:1,skoonUrl:'',customUrl:'https://example.org/my-firm',expectedSchema:2},
+    {label:'current-v2-preserves-custom-entries',schemaVersion:2,skoonUrl:'https://skoonaiv2.vercel.app/index.html',customUrl:'https://example.org/my-firm',expectedSchema:2}
+  ]) {
+    await t.test(scenario.label, async()=>{
+      const ctx=await browser.newContext({viewport:{width:390,height:844}});
+      try {
+        const categories=[{id:'consultants',en:'Consultants',ar:'الاستشاريون',icon:'consultant',descEn:'Consultants',descAr:'استشاريون'}];
+        const companies=[
+          {id:'skoon',category:'consultants',en:'SKOON Architecture',ar:'سكون للاستشارات الهندسية',url:scenario.skoonUrl},
+          {id:'customer-custom',category:'consultants',en:'My Firm',ar:'شركتي',url:scenario.customUrl}
+        ];
+        await ctx.addInitScript(({directory})=>{
+          localStorage.setItem('skoon-build-directory-v1',JSON.stringify(directory));
+          localStorage.setItem('skoon-hub-lang','ar');
+        },{directory:{categories,companies,schemaVersion:scenario.schemaVersion}});
+        const page=await ctx.newPage();
+        await page.goto(origin+'/build-hub/',{waitUntil:'load'});
+        assert.equal(await page.locator('html').getAttribute('lang'),'ar');
+        assert.equal(await page.locator('html').getAttribute('dir'),'rtl');
+        await page.locator('[data-category="consultants"]').click();
+        const skoon=page.locator('.card.company.featured');
+        if(scenario.skoonUrl===''){
+          assert.equal(await page.locator('button.card.company.featured[data-pending="1"]').count(),1,
+            'A historically blank URL stays pending; do not overwrite user data');
+        } else {
+          assert.equal(await page.locator('a.card.company.featured').getAttribute('href'),
+            'https://skoonaiv2.vercel.app/index.html?lang=ar');
+        }
+        assert.equal(await page.locator('a.card.company').filter({hasText:'شركتي'}).getAttribute('href'),
+          scenario.customUrl);
+        const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('skoon-build-directory-v1')));
+        assert.equal(stored.schemaVersion,scenario.expectedSchema);
+        assert.equal(stored.companies.find(c=>c.id==='skoon').url,scenario.skoonUrl);
+        assert.equal(stored.companies.find(c=>c.id==='customer-custom').url,scenario.customUrl);
+        await page.screenshot({path:path.join(evidence,'stage8-'+scenario.label+'.png'),fullPage:true});
+      } finally {await ctx.close();}
+    });
+  }
+  // Stage 8: malformed and untrusted stored data must not execute or be destroyed.
+  for (const scenario of [
+    {label:'malformed-json-is-preserved',raw:'{bad json'},
+    {label:'unsafe-url-is-rejected-without-overwrite',raw:JSON.stringify({
+      schemaVersion:2,
+      categories:[{id:'consultants',en:'Consultants',ar:'الاستشاريون',icon:'consultant'}],
+      companies:[{id:'untrusted',category:'consultants',en:'Unsafe',ar:'غير آمن',url:'javascript:alert(1)'}]
+    })}
+  ]) {
+    await t.test(scenario.label, async()=>{
+      const ctx=await browser.newContext({viewport:{width:390,height:844}});
+      try {
+        await ctx.addInitScript(({raw})=>{
+          localStorage.setItem('skoon-build-directory-v1',raw);
+        },{raw:scenario.raw});
+        const page=await ctx.newPage();
+        const errors=[];
+        page.on('pageerror',e=>errors.push(e.message));
+        await page.goto(origin+'/build-hub/',{waitUntil:'load'});
+        assert.equal(await page.locator('.category-card').count(),6,
+          'Untrusted storage must not override the known default directory');
+        assert.equal(await page.evaluate(()=>localStorage.getItem('skoon-build-directory-v1')),
+          scenario.raw,'Invalid user storage must not be silently overwritten or deleted');
+        assert.deepEqual(errors,[],'Stored data must not trigger page script exceptions');
+        await page.screenshot({path:path.join(evidence,'stage8-'+scenario.label+'.png'),fullPage:true});
+      } finally {await ctx.close();}
+    });
+  }
+
 });
