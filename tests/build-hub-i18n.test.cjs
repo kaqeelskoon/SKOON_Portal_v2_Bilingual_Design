@@ -70,3 +70,11 @@ test('editor explicitly discloses local-only persistence', () => {
   assert.match(js, /localStorage\.setItem\(key,JSON\.stringify\(data\)\)/);
   assert.match(js, /storageError/);
 });
+
+test('SKOON portal link preserves selected language without rewriting external links', () => {
+  assert.match(js, /function companyHref\(c\)/);
+  assert.match(js, /c\.id!=='skoon'/);
+  assert.match(js, /c\.url!=='https:\/\/skoonaiv2\.vercel\.app\/index\.html'/);
+  assert.match(js, /u\.searchParams\.set\('lang',lang\)/);
+  assert.match(js, /safe\(companyHref\(c\)\)/);
+});
