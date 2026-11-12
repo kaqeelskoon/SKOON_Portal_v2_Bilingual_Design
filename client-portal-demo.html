@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" dir="ltr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102723">
+<meta name="description" content="SKOON client portal bilingual interactive review preview. Demonstration only.">
+<title>Client Portal Preview | SKOON Architecture</title>
+<link rel="stylesheet" href="/client-portal-demo.css">
+<script src="/client-portal-demo.js" defer></script>
+</head><body>
+<header class="topbar">
+  <a href="/?lang=en" id="brand-link" class="brand" aria-label="SKOON home"><span class="brand-icon">S</span><span>SKOON<em>.AI</em></span></a>
+  <div class="topnav"><span class="demo-chip" data-i="demoLabel">INTERACTIVE DEMO</span><a href="/projects.html?lang=en" id="projects-link" data-i="backWebsite">Our Projects</a><button id="language" aria-label="Switch language" type="button">العربية</button></div>
+</header>
+<div class="app-frame">
+ <aside class="sidebar" id="sidebar">
+   <div class="sidebar-title"><small data-i="portalEyebrow">PRIVATE CLIENT EXPERIENCE</small><strong data-i="portalTitle">Client Portal</strong></div>
+   <div class="client-id"><span class="avatar">C</span><div><b data-i="clientName">Sample Client</b><small data-i="sampleProject">Sample Residence — Demo</small></div></div>
+   <div class="sidebar-caption" data-i="workspace">YOUR WORKSPACE</div>
+   <nav id="tabs" aria-label="Client portal pages">
+     <button type="button" data-tab="home" aria-current="page"><span class="navglyph">⌂</span><span data-i="home">Overview</span></button>
+     <button type="button" data-tab="progress"><span class="navglyph">◷</span><span data-i="progress">Progress</span></button>
+     <button type="button" data-tab="documents"><span class="navglyph">▤</span><span data-i="documents">Documents</span></button>
+     <button type="button" data-tab="decisions"><span class="navglyph">✓</span><span data-i="decisions">Decisions</span><span id="decision-count" class="nav-number">2</span></button>
+     <button type="button" data-tab="messages"><span class="navglyph">✉</span><span data-i="messages">Messages</span></button>
+     <button type="button" data-tab="collections"><span class="navglyph">◇</span><span data-i="collections">Design collections</span></button>
+   </nav>
+   <div class="sidebar-bottom"><span class="safety-dot">●</span><span data-i="demoNote">Sample data only. No client account or live service is connected.</span></div>
+ </aside>
+ <main id="content" class="content">
+   <section class="welcome" aria-labelledby="page-title">
+     <div><div class="eyebrow" data-i="dashboardLabel">YOUR PROJECT, AT A GLANCE</div><h1 id="page-title" data-i="welcomeTitle">Good to have you here.</h1><p class="welcome-intro" data-i="welcomeText">A clear view of what has changed, what needs your decision, and what happens next.</p></div>
+     <div class="project-switch"><span class="project-mark">◈</span><div><small data-i="viewingProject">VIEWING PROJECT</small><strong data-i="sampleProject">Sample Residence — Demo</strong></div><span class="switch-dot">⌄</span></div>
+   </section>
+   <div class="demo-warning"><span class="shield-mark">ⓘ</span><span data-i="demoWarning">Presentation prototype — all projects, dates, documents, decisions and messages are fictional. Nothing is saved or sent.</span></div>
+   <div id="view" aria-live="polite"></div>
+   <footer class="app-footer"><span>SKOON<span class="gold">.AI</span></span><span data-i="footer">Designed by Eng. Khalid Aqeel / All rights reserved</span></footer>
+ </main>
+</div>
+</body></html>
