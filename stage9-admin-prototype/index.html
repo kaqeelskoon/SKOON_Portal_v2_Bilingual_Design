@@ -67,7 +67,20 @@ footer{margin-top:30px;color:#697d74;font-size:12px}
   </nav>
   <section id="overview"><div class="metrics" id="metrics"></div><h2 class="section-title" id="overview-title"></h2><div class="split" id="overview-panels"></div></section>
   <section id="directory" hidden><h2 class="section-title" id="directory-title"></h2><div class="toolbar"><input id="search" type="search" autocomplete="off" aria-label="Search" placeholder=""><span class="muted" id="result-count"></span></div><div class="panel table-wrap"><table class="listing"><thead><tr id="columns"></tr></thead><tbody id="entries"></tbody></table></div></section>
-  <section id="access" hidden><h2 class="section-title" id="access-title"></h2><p class="muted" id="access-desc"></p><div class="panel table-wrap"><table class="listing"><thead><tr id="access-columns"></tr></thead><tbody id="access-entries"></tbody></table></div></section>
+  <section id="access" hidden><h2 class="section-title" id="access-title"></h2><p class="muted" id="access-desc"></p><div class="panel table-wrap"><table class="listing"><thead><tr id="access-columns"></tr></thead><tbody id="access-entries"></tbody></table></div>
+    <div class="panel access-check">
+      <h3 id="boundary-title"></h3><p id="boundary-desc" class="muted"></p>
+      <div id="boundary-options" class="dryrun-actions">
+        <button type="button" class="scenario" data-boundary="nominal" aria-pressed="true"></button>
+        <button type="button" class="scenario" data-boundary="cross" aria-pressed="false"></button>
+        <button type="button" class="scenario" data-boundary="spoof" aria-pressed="false"></button>
+        <button type="button" class="scenario" data-boundary="unknown" aria-pressed="false"></button>
+      </div>
+      <div id="boundary-status" class="dryrun-summary" role="status"></div>
+      <ul id="boundary-reasons"></ul>
+      <p id="boundary-locked" class="readonly"></p>
+    </div>
+  </section>
   <section id="migration" hidden><h2 class="section-title" id="migration-title"></h2><p class="muted" id="migration-desc"></p><div class="panel" id="migration-steps"></div>
     <div class="panel dryrun" aria-label="Synthetic preflight preview">
       <div class="dryrun-head"><h3 id="dryrun-title"></h3><span class="pill gray" id="dryrun-only"></span></div>
@@ -83,5 +96,5 @@ footer{margin-top:30px;color:#697d74;font-size:12px}
     </div></section>
   <footer id="footer"></footer>
 </main>
-<script src="./directory-dry-run.js" defer></script><script src="./app.js" defer></script>
+<script src="./directory-dry-run.js" defer></script><script src="./access-boundary-review.js" defer></script><script src="./app.js" defer></script>
 </body></html>
