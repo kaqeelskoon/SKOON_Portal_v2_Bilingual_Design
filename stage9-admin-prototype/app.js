@@ -124,7 +124,7 @@ function render(){
  $('directory-title').textContent=t.directoryTitle;$('search').placeholder=t.search;$('search').setAttribute('aria-label',t.search);
  $('columns').replaceChildren(...t.columns.map(v=>h('th',v)));
  $('access-title').textContent=t.accessTitle;$('access-desc').textContent=t.accessDesc;$('access-columns').replaceChildren(...t.accessColumns.map(v=>h('th',v)));
- $('access-entries').replaceChildren(...t.roles.map(row=>{const tr=h('tr','');for(const v of row)tr.append(h('td',v));return tr}));
+ $('access-entries').replaceChildren(...t.roles.map(row=>{const tr=h('tr','');row.forEach((v,i)=>{const cell=h('td',v);cell.setAttribute('data-label',t.accessColumns[i]);tr.append(cell)});return tr}));
  $('migration-title').textContent=t.migrationTitle;$('migration-desc').textContent=t.migrationDesc;
  $('migration-steps').replaceChildren(...t.steps.map(([title,desc])=>{const d=h('div','','step');d.append(h('b',title),h('span',desc));return d}));renderRows();renderDryRun();renderBoundary()
 }
