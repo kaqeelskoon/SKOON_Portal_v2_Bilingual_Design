@@ -30,6 +30,13 @@ th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#63776f}
 .pill.gray{background:#f2f2f2;color:#66706c}.muted{color:#65766f;font-size:13px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.step{padding:14px;border-bottom:1px solid #edf2ee}
 .step b{display:block;margin-bottom:6px}.step:last-child{border-bottom:none}
+.dryrun{margin-top:20px}.dryrun-head{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+.dryrun-actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.scenario{border:1px solid #abcabf;color:#154f3c;background:#eff8f3;padding:11px 15px;border-radius:10px;font-weight:700}
+.scenario[aria-pressed=true]{background:#154f3c;color:#fff}.finding-block{color:#8b3330;font-weight:800}.finding-review{color:#765a1c;font-weight:800}
+.dryrun-summary{font-weight:750;color:#633b16;background:#fff5dc;border:1px solid #e6d4a6;border-radius:11px;padding:12px;margin:12px 0}
+.dryrun-code{font-size:12px;direction:ltr;unicode-bidi:isolate;display:inline-block;text-align:left}
+.dryrun-caption{font-size:13px;color:#5b7067}.readonly{border-left:4px solid #9d7652;padding:10px 13px;background:#fcf8f3}
+[dir=rtl] .readonly{border-left:0;border-right:4px solid #9d7652}
 footer{margin-top:30px;color:#697d74;font-size:12px}
 [dir=rtl] .brand{letter-spacing:0}[dir=rtl] .brand small{letter-spacing:0}
 @media(max-width:650px){.metrics,.split{grid-template-columns:1fr}.shell{padding-top:21px}header{padding:18px}h1{font-size:30px}}
@@ -48,8 +55,20 @@ footer{margin-top:30px;color:#697d74;font-size:12px}
   <section id="overview"><div class="metrics" id="metrics"></div><h2 class="section-title" id="overview-title"></h2><div class="split" id="overview-panels"></div></section>
   <section id="directory" hidden><h2 class="section-title" id="directory-title"></h2><div class="toolbar"><input id="search" type="search" autocomplete="off" aria-label="Search" placeholder=""><span class="muted" id="result-count"></span></div><div class="panel table-wrap"><table class="listing"><thead><tr id="columns"></tr></thead><tbody id="entries"></tbody></table></div></section>
   <section id="access" hidden><h2 class="section-title" id="access-title"></h2><p class="muted" id="access-desc"></p><div class="panel table-wrap"><table class="listing"><thead><tr id="access-columns"></tr></thead><tbody id="access-entries"></tbody></table></div></section>
-  <section id="migration" hidden><h2 class="section-title" id="migration-title"></h2><p class="muted" id="migration-desc"></p><div class="panel" id="migration-steps"></div></section>
+  <section id="migration" hidden><h2 class="section-title" id="migration-title"></h2><p class="muted" id="migration-desc"></p><div class="panel" id="migration-steps"></div>
+    <div class="panel dryrun" aria-label="Synthetic preflight preview">
+      <div class="dryrun-head"><h3 id="dryrun-title"></h3><span class="pill gray" id="dryrun-only"></span></div>
+      <p id="dryrun-desc" class="muted"></p>
+      <div class="dryrun-actions" role="group" aria-label="Synthetic test scenarios">
+        <button type="button" class="scenario" data-scenario="conflict" aria-pressed="true"></button>
+        <button type="button" class="scenario" data-scenario="blocked" aria-pressed="false"></button>
+      </div>
+      <div class="dryrun-summary" id="dryrun-status" role="status"></div>
+      <div id="dryrun-stats" class="dryrun-caption"></div>
+      <div class="table-wrap"><table class="listing"><thead><tr id="dryrun-columns"></tr></thead><tbody id="dryrun-findings"></tbody></table></div>
+      <p id="dryrun-lock" class="readonly"></p>
+    </div></section>
   <footer id="footer"></footer>
 </main>
-<script src="./app.js" defer></script>
+<script src="./directory-dry-run.js" defer></script><script src="./app.js" defer></script>
 </body></html>
