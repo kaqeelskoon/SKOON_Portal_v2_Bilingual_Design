@@ -56,6 +56,11 @@ test('SKOON portfolio bilingual navigation and categories desktop/mobile',{timeo
     assert.equal(await page.locator('[data-i=aurumTitle]').innerText(),'فندق أوروم');
     assert.equal(await page.locator('#filters [data-filter=hotels]').getAttribute('aria-pressed'),'true');
     assert.match(page.url(),/lang=ar/);
+    assert.match(await page.locator('#projects-link').getAttribute('href'),/lang=ar/);
+    await page.locator('#projects-link').click();
+    await page.waitForURL(/projects\.html\?lang=ar/);
+    assert.equal(await page.locator('html').getAttribute('lang'),'ar');
+
     await page.screenshot({path:path.join(evidence,viewport.name+'-ar-hotel.png'),fullPage:true});
     await page.locator('#filters [data-filter=commercial]').click();
     assert.equal(await page.locator('#empty-state').isVisible(),true);
