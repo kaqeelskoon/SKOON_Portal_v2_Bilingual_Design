@@ -61,7 +61,7 @@ function collectionsPage(){
  const w=t();return subTitle()+'<div class="collection-grid">'+w.collectionList.map((name,i)=>'<button class="collection-card '+(selectedCollection===i?'selected':'')+'" data-collection="'+i+'" aria-pressed="'+(selectedCollection===i)+'"><div class="collection-top"><span>0'+(i+1)+'</span><span>◇</span></div><h3 dir="ltr">'+name+'</h3><p>'+escape(w.collectionSummaries[i])+'</p><span>'+w.collectionInfo+' ↗</span></button>').join('')+'</div><section class="collection-detail"><small>'+w.collectionLabel+'</small><h3 dir="ltr">'+w.collectionList[selectedCollection]+'</h3><p>'+w.collectionSummaries[selectedCollection]+'</p><p class="inline-note">'+w.collectionDesc+'</p><div class="collection-buttons"><button class="outline-action" data-open="decisions">'+w.tryReview+'</button><a class="solid-action" href="/projects.html?lang='+lang+'">'+w.visitProjects+' ↗</a></div></section>';
 }
 const renders={home,progress,documents:documentsPage,decisions:decisionsPage,messages:messagesPage,collections:collectionsPage};
-function setTab(next){if(!renders[next])return;tab=next;detail=null;notice='';render();$('#content').scrollIntoView({behavior:'instant',block:'start'});}
+function setTab(next){if(!renders[next])return;tab=next;detail=null;notice='';render();window.scrollTo({top:0,left:0,behavior:'instant'});}
 function render(){
  const w=t();document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.title=w.portalTitle+' — '+w.demoLabel+' | SKOON.AI';
  document.querySelectorAll('[data-i]').forEach(e=>{const str=w[e.dataset.i];if(typeof str==='string')e.textContent=str});
