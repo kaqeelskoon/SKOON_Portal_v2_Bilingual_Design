@@ -62,6 +62,28 @@ test('SKOON portfolio bilingual navigation and categories desktop/mobile',{timeo
     assert.equal(await page.locator('html').getAttribute('lang'),'ar');
 
     await page.screenshot({path:path.join(evidence,viewport.name+'-ar-hotel.png'),fullPage:true});
+    assert.match(await page.locator('#open-aurum').getAttribute('href'),/portfolio-project\.html\?lang=ar/);
+    await page.locator('#open-aurum').click();
+    await page.waitForURL(/portfolio-project\.html\?lang=ar/);
+    assert.equal(await page.locator('html').getAttribute('dir'),'rtl');
+    assert.equal(await page.locator('h1').innerText(),'فندق أوروم');
+    const detailImage=page.locator('#detail-image');
+    await detailImage.evaluate(img=>img.decode());
+    assert.ok(await detailImage.evaluate(img=>img.naturalWidth>1000));
+    assert.match(await page.locator('#back-to-projects').getAttribute('href'),/projects\.html\?lang=ar/);
+    assert.equal(await page.locator('.detail-code').innerText(),'SD-P256');
+    await page.screenshot({path:path.join(evidence,viewport.name+'-ar-aurum-detail.png'),fullPage:true});
+    await page.locator('#language').click();
+    assert.equal(await page.locator('html').getAttribute('dir'),'ltr');
+    assert.equal(await page.locator('h1').innerText(),'Aurum Hotel');
+    assert.match(await page.locator('#back-to-projects').getAttribute('href'),/projects\.html\?lang=en/);
+    await page.screenshot({path:path.join(evidence,viewport.name+'-en-aurum-detail.png'),fullPage:true});
+    await page.locator('#back-to-projects').click();
+    await page.waitForURL(/projects\.html\?lang=en/);
+    assert.equal(await page.locator('html').getAttribute('lang'),'en');
+    await page.locator('#language').click();
+    assert.equal(await page.locator('html').getAttribute('dir'),'rtl');
+
     await page.locator('#filters [data-filter=commercial]').click();
     assert.equal(await page.locator('#empty-state').isVisible(),true);
     await page.screenshot({path:path.join(evidence,viewport.name+'-ar-commercial-empty.png'),fullPage:true});
