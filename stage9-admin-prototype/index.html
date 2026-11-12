@@ -37,6 +37,19 @@ th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#63776f}
 .dryrun-code{font-size:12px;direction:ltr;unicode-bidi:isolate;display:inline-block;text-align:left}
 .dryrun-caption{font-size:13px;color:#5b7067}.readonly{border-left:4px solid #9d7652;padding:10px 13px;background:#fcf8f3}
 [dir=rtl] .readonly{border-left:0;border-right:4px solid #9d7652}
+@media(max-width:650px){
+  .dryrun .table-wrap{overflow:visible}
+  .dryrun .listing{min-width:0;display:block}
+  .dryrun .listing thead{display:none}
+  .dryrun .listing tbody{display:grid;gap:12px}
+  .dryrun .listing tr{display:block;border:1px solid #d9e5df;border-radius:12px;padding:10px;background:#fff}
+  .dryrun .listing td{display:grid;grid-template-columns:minmax(90px,36%) minmax(0,1fr);gap:8px;align-items:start;padding:7px 3px;min-width:0;overflow-wrap:anywhere}
+  .dryrun .listing td:last-child{border-bottom:0}
+  .dryrun .listing td::before{content:attr(data-label);font-size:12px;font-weight:650;color:#597268}
+  .dryrun .listing td.dryrun-code{display:grid;text-align:start;direction:inherit;unicode-bidi:normal}
+  .dryrun .listing td.dryrun-code span{direction:ltr;unicode-bidi:isolate;display:inline-block;text-align:left;overflow-wrap:anywhere}
+  [dir=rtl] .dryrun .listing td.dryrun-code span{text-align:right}
+}
 footer{margin-top:30px;color:#697d74;font-size:12px}
 [dir=rtl] .brand{letter-spacing:0}[dir=rtl] .brand small{letter-spacing:0}
 @media(max-width:650px){.metrics,.split{grid-template-columns:1fr}.shell{padding-top:21px}header{padding:18px}h1{font-size:30px}}
