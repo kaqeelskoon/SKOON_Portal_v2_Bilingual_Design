@@ -39,6 +39,11 @@ test('Stage9 independent bilingual browser preview', {timeout:150000},async t=>{
     assert.match(await page.locator('#entries').innerText(),/لا توجد سجلات/);
     await page.locator('[data-tab="access"]').click();
     assert.equal(await page.locator('#access-entries tr').count(),4);
+    const roleFields=await page.locator('#access-entries tr').first().locator('td').evaluateAll(cells=>cells.map(c=>({label:c.getAttribute('data-label'),display:getComputedStyle(c).display})));
+    assert.equal(roleFields.length,3);
+    assert.ok(roleFields.every(f=>f.label),'Role fields must have localized labels');
+    if(view.name==='mobile')assert.ok(roleFields.every(f=>f.display==='grid'),'Mobile role table must display labeled cards');
+
     assert.match(await page.locator('#boundary-status').textContent(),/مرفوض/);
     assert.match(await page.locator('#boundary-reasons').innerText(),/سياسة ERP غير معتمدة/);
     await page.locator('[data-boundary="cross"]').click();
