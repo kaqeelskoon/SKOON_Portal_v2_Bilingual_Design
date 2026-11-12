@@ -4,6 +4,7 @@ on:
     branches:
       - feature/skoon-design-portfolio-20261112
       - fix/portfolio-directory-language-20261112
+      - fix/portfolio-self-link-locale-20261112
   workflow_dispatch:
 permissions:
   contents: read
