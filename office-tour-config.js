@@ -7,7 +7,7 @@ window.SKOON_OFFICE_CONFIG = {
   website: 'index.html',
   autoplay: true,
   links: {
-    projects: { en: 'reception.html?view=projects', ar: 'reception.html?view=projects' },
+    projects: { en: 'projects.html', ar: 'projects.html' },
     client: { en: 'reception.html?view=client', ar: 'reception.html?view=client' },
     tender: { en: 'reception.html?view=tender', ar: 'reception.html?view=tender' },
     meeting: { en: 'reception.html?view=meeting', ar: 'reception.html?view=meeting' },
