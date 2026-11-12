@@ -52,6 +52,14 @@ test('Stage9 independent bilingual browser preview', {timeout:150000},async t=>{
     assert.match(await page.locator('#dryrun-status').textContent(),/مرفوض/);
     assert.equal(await page.locator('#dryrun-findings tr').count(),2);
     assert.match(await page.locator('#dryrun-findings').innerText(),/URL_PROTOCOL/);
+    const fields=await page.locator('#dryrun-findings tr').first().locator('td').evaluateAll(cells=>cells.map(cell=>({
+      label:cell.getAttribute('data-label'),
+      display:getComputedStyle(cell).display
+    })));
+    assert.equal(fields.length,4);
+    assert.ok(fields.every(field=>field.label&&field.label.trim().length>0),'All fields should be labeled for accessibility');
+    if(view.name==='mobile')assert.ok(fields.every(field=>field.display==='grid'),'Mobile findings must be stacked fields');
+
     assert.equal(await page.locator('[data-scenario="blocked"]').getAttribute('aria-pressed'),'true');
     await page.screenshot({path:path.join(evidence,view.name+'-ar-dry-run-blocked.png'),fullPage:true});
     await page.locator('#language').click();
