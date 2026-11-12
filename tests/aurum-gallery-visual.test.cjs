@@ -37,6 +37,8 @@ test('Aurum image replaces gallery tower throughout bilingual site', {timeout:12
      assert.equal(await page.locator('html').getAttribute('dir'),lang==='ar'?'rtl':'ltr');
      const photo=page.locator('.gallery img[src="assets/aurum-p256-cover.jpg"]');
      assert.equal(await photo.count(),1);
+     await photo.scrollIntoViewIfNeeded();
+     await photo.evaluate(img=>img.decode());
      assert.equal(await photo.evaluate(x=>x.complete && x.naturalWidth>1000),true);
      assert.equal(await page.locator('.gallery img[src="assets/tower.jpg"]').count(),0);
      assert.match(await photo.getAttribute('alt'),lang==='ar'?/أوروم/:/Aurum/);
