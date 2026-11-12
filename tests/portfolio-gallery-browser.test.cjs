@@ -8,6 +8,15 @@ const contentTypes={'.html':'text/html; charset=utf-8','.js':'application/javasc
 test('SKOON portfolio bilingual navigation and categories desktop/mobile',{timeout:150000},async t=>{
  fs.mkdirSync(evidence,{recursive:true});
  const source=fs.readFileSync(path.join(root,'projects.js'),'utf8');
+ const vm=require('node:vm');
+ const tourContext={window:{}};
+ vm.runInNewContext(fs.readFileSync(path.join(root,'office-tour-config.js'),'utf8'),tourContext);
+ const tourModel=require('../office-tour-model.js');
+ for(const language of ['ar','en']){
+  const u=tourModel.destinationUrl(tourContext.window.SKOON_OFFICE_CONFIG,'projects',language,'https://skoon.example/office-tour.html');
+  assert.ok(u && u.includes('/projects.html?lang='+language),'Office tour projects link must open gallery in '+language);
+ }
+
  assert.doesNotMatch(source,/Jaiedco|tower\.jpg|P338/i,'Portfolio must not reintroduce incorrect attribution');
  const server=http.createServer((req,res)=>{
   const raw=new URL(req.url||'/', 'http://localhost').pathname;
