@@ -1,0 +1,35 @@
+name: Aurum legacy website mirror visual QA
+on:
+  push:
+    branches:
+      - fix/aurum-legacy-website-mirror-20261112
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  image-mirror-browser-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check mirrored website JavaScript syntax
+        run: |
+          node --check website/app.js
+          node --check tests/aurum-website-mirror-visual.test.cjs
+      - name: Install pinned browser runner
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Install Chromium runtime
+        run: npx playwright install --with-deps chromium
+      - name: Test mirror gallery and employee login desktop/mobile EN/AR
+        run: node --test tests/aurum-website-mirror-visual.test.cjs
+      - name: Archive QS screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aurum-website-mirror-visual-evidence
+          path: QS/aurum-website-mirror-evidence/*.png
+          retention-days: 14
+          if-no-files-found: warn
