@@ -49,6 +49,15 @@ th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#63776f}
   .dryrun .listing td.dryrun-code{display:grid;text-align:start;direction:inherit;unicode-bidi:normal}
   .dryrun .listing td.dryrun-code span{direction:ltr;unicode-bidi:isolate;display:inline-block;text-align:left;overflow-wrap:anywhere}
   [dir=rtl] .dryrun .listing td.dryrun-code span{text-align:right}
+  #access .table-wrap{overflow:visible}
+  #access .listing{min-width:0;display:block}
+  #access .listing thead{display:none}
+  #access .listing tbody{display:grid;gap:12px}
+  #access .listing tr{display:block;border:1px solid #d9e5df;border-radius:12px;padding:10px;background:#fff}
+  #access .listing td{display:grid;grid-template-columns:minmax(90px,36%) minmax(0,1fr);gap:8px;align-items:start;padding:7px 3px;min-width:0;overflow-wrap:anywhere}
+  #access .listing td:last-child{border-bottom:0}
+  #access .listing td::before{content:attr(data-label);font-size:12px;font-weight:650;color:#597268}
+
 }
 footer{margin-top:30px;color:#697d74;font-size:12px}
 [dir=rtl] .brand{letter-spacing:0}[dir=rtl] .brand small{letter-spacing:0}
