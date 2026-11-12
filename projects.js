@@ -19,7 +19,7 @@ function update(){
  $('#project-list').hidden=!['all','hotels'].includes(selected);
  $('#empty-state').hidden=['all','hotels'].includes(selected);
  $('.project-photo img').alt=words.photoAlt;
- const pairs=[['brand-link','/index.html?office=skip'],['directory-link','/'],['site-link','/index.html?office=skip'],['contact-link','/quotation.html'],['cta-link','/quotation.html'],['footer-link','/index.html?office=skip']];
+ const pairs=[['brand-link','/index.html?office=skip'],['directory-link','/'],['site-link','/index.html?office=skip'],['projects-link','/projects.html'],['contact-link','/quotation.html'],['cta-link','/quotation.html'],['footer-link','/index.html?office=skip']];
  pairs.forEach(([id,url])=>{const parsed=new URL(url,location.origin);parsed.searchParams.set('lang',lang);$('#'+id).href=parsed.pathname+parsed.search});
  const u=new URL(location.href);u.searchParams.set('lang',lang);if(selected==='all')u.searchParams.delete('type');else u.searchParams.set('type',selected);history.replaceState(null,'',u);
 }
