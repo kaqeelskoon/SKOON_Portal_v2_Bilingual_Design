@@ -156,9 +156,12 @@ function renderDryRun(){
  $('dryrun-findings').replaceChildren(...output.findings.map(f=>{
   const tr=h('tr','');
   const type=h('td',t.drySeverity[f.severity]||f.severity,f.severity==='block'?'finding-block':'finding-review');
-  const code=h('td',f.code,'dryrun-code'),source=h('td',f.path,'dryrun-code');
+  const code=h('td','','dryrun-code'),source=h('td','','dryrun-code');
+  code.append(h('span',f.code));source.append(h('span',f.path));
   const message=h('td',t.dryDetails[f.code]||f.detail);
-  tr.append(type,code,source,message);return tr;
+  const cells=[type,code,source,message];
+  cells.forEach((cell,i)=>cell.setAttribute('data-label',t.dryColumns[i]));
+  tr.append(...cells);return tr;
  }));
 }
 document.querySelectorAll('[data-scenario]').forEach(button=>button.addEventListener('click',()=>{
