@@ -20,6 +20,12 @@ const copy={
   noLink:'Not provided',sample:'Illustrative',count:'matching sample entries',empty:'No matching sample entries',
   accessTitle:'Access decision worksheet — not an approved permission matrix',
   accessDesc:'These are proposed audience categories, not authorized ERP roles. All production write permissions remain blocked.',
+  boundaryTitle:'Access boundary — illustrative denial checks',
+  boundaryDesc:'Choose synthetic access scenarios. This does not authenticate users or implement a server-side policy.',
+  boundaryScenarios:['Matching identifiers','Different company','Spoofed actor','Missing identity'],
+  boundaryResult:'DENIED — NO VERIFIED AUTHORITY',
+  boundaryReasons:{INVALID_REQUEST:'Invalid input',MISSING_ACTION:'Action unspecified',UNVERIFIED_IDENTITY:'Identity not verified',UNVERIFIED_RESOURCE:'Resource not verified',UNVERIFIED_MEMBERSHIP:'Membership not verified',ACTOR_MISMATCH:'Actor / membership mismatch',CROSS_COMPANY:'Cross-company access request',ERP_POLICY_NOT_APPROVED:'ERP policy is not approved',SERVER_PROOF_UNAVAILABLE:'Server-side authorization evidence unavailable'},
+  boundaryLock:'Execution remains disabled in every demonstration. Client-provided flags are not permission evidence.',
   accessColumns:['Proposed audience','Suggested scope','Decision'],roles:[
    ['Public visitor','Read published company directory only','Awaiting approval'],
    ['Directory editor','Prepare changes for review; no direct publishing','Awaiting approval'],
@@ -65,6 +71,12 @@ const copy={
   noLink:'غير مضاف',sample:'توضيحي',count:'سجل مطابق',empty:'لا توجد سجلات توضيحية مطابقة',
   accessTitle:'مصفوفة قرارات الصلاحيات — غير معتمدة',
   accessDesc:'هذه فئات استخدام مقترحة وليست أدواراً معتمدة من ERP. جميع صلاحيات التعديل الإنتاجية معلّقة.',
+  boundaryTitle:'حدود الصلاحيات — اختبارات رفض توضيحية',
+  boundaryDesc:'اختر سيناريوهات دخول اصطناعية؛ لا تمثل هذه الواجهة مصادقة أو سياسة صلاحيات منفذة بالخادم.',
+  boundaryScenarios:['معرّفات متطابقة','شركة مختلفة','انتحال هوية','هوية غير موجودة'],
+  boundaryResult:'مرفوض — لا يوجد تفويض موثّق',
+  boundaryReasons:{INVALID_REQUEST:'بيانات الطلب غير صالحة',MISSING_ACTION:'العملية غير محددة',UNVERIFIED_IDENTITY:'الهوية غير متحقَّق منها',UNVERIFIED_RESOURCE:'المورد غير متحقَّق منه',UNVERIFIED_MEMBERSHIP:'العضوية غير متحقَّق منها',ACTOR_MISMATCH:'تعارض هوية المستخدم وعضويته',CROSS_COMPANY:'محاولة وصول إلى شركة أخرى',ERP_POLICY_NOT_APPROVED:'سياسة ERP غير معتمدة',SERVER_PROOF_UNAVAILABLE:'إثبات التفويض من الخادم غير متوفر'},
+  boundaryLock:'التنفيذ ممنوع في جميع سيناريوهات العرض، ولا تعدّ أعلام الموافقة المُرسلة من المتصفح دليلاً للصلاحية.',
   accessColumns:['فئة الاستخدام المقترحة','نطاق مقترح','الحالة'],roles:[
    ['الزائر العام','قراءة دليل الشركات المنشور فقط','بانتظار الاعتماد'],
    ['محرر الدليل','اقتراح التعديلات للمراجعة، دون نشر مباشر','بانتظار الاعتماد'],
@@ -98,7 +110,7 @@ const copy={
  }
 };
 const $=id=>document.getElementById(id);
-let language='en',tab='overview',scenario='conflict';
+let language='en',tab='overview',scenario='conflict',boundary='nominal';
 const h=(tag,text,className)=>{const node=document.createElement(tag);node.textContent=String(text);if(className)node.className=className;return node};
 function render(){
  const t=copy[language];document.documentElement.lang=language;document.documentElement.dir=language==='ar'?'rtl':'ltr';
@@ -114,7 +126,7 @@ function render(){
  $('access-title').textContent=t.accessTitle;$('access-desc').textContent=t.accessDesc;$('access-columns').replaceChildren(...t.accessColumns.map(v=>h('th',v)));
  $('access-entries').replaceChildren(...t.roles.map(row=>{const tr=h('tr','');for(const v of row)tr.append(h('td',v));return tr}));
  $('migration-title').textContent=t.migrationTitle;$('migration-desc').textContent=t.migrationDesc;
- $('migration-steps').replaceChildren(...t.steps.map(([title,desc])=>{const d=h('div','','step');d.append(h('b',title),h('span',desc));return d}));renderRows();renderDryRun()
+ $('migration-steps').replaceChildren(...t.steps.map(([title,desc])=>{const d=h('div','','step');d.append(h('b',title),h('span',desc));return d}));renderRows();renderDryRun();renderBoundary()
 }
 function renderRows(){
  const t=copy[language],query=$('search').value.trim().toLocaleLowerCase();
@@ -164,6 +176,34 @@ function renderDryRun(){
   tr.append(...cells);return tr;
  }));
 }
+
+function renderBoundary(){
+ const t=copy[language],engine=window.SkoonAccessReview;
+ $('boundary-title').textContent=t.boundaryTitle;
+ $('boundary-desc').textContent=t.boundaryDesc;
+ $('boundary-locked').textContent=t.boundaryLock;
+ document.querySelectorAll('[data-boundary]').forEach((button,i)=>{
+  button.textContent=t.boundaryScenarios[i];
+  button.setAttribute('aria-pressed',String(button.dataset.boundary===boundary));
+ });
+ const request={action:'directory.edit',actor:{id:'synthetic-actor-A'},
+  membership:{actorId:'synthetic-actor-A',companyId:'synthetic-company-A'},
+  resource:{companyId:'synthetic-company-A'}};
+ if(boundary==='cross') request.resource.companyId='synthetic-company-B';
+ if(boundary==='spoof') request.membership.actorId='synthetic-other';
+ if(boundary==='unknown') delete request.actor;
+ const output=engine&&typeof engine.review==='function'?engine.review(request):null;
+ $('boundary-status').textContent=output&&output.decision==='DENY'&&output.canExecute===false?t.boundaryResult:'CHECK UNAVAILABLE / الفحص غير متاح';
+ $('boundary-reasons').replaceChildren(...(output?.reasons||[]).map(code=>{
+  const item=h('li',t.boundaryReasons[code]||code);
+  item.setAttribute('data-code',code);
+  return item;
+ }));
+}
+document.querySelectorAll('[data-boundary]').forEach(button=>button.addEventListener('click',()=>{
+ boundary=button.dataset.boundary;renderBoundary();
+}));
+
 document.querySelectorAll('[data-scenario]').forEach(button=>button.addEventListener('click',()=>{
  scenario=button.dataset.scenario;renderDryRun();
 }));
