@@ -27,6 +27,12 @@ test('SKOON client review dashboard remains interactive, bilingual and isolated'
     await p.goto(base+'/client-portal-demo.html?lang=en',{waitUntil:'networkidle'});
     assert.equal(await p.locator('html').getAttribute('dir'),'ltr');
     assert.equal(await p.locator('#tabs [data-tab]').count(),6);
+    if(view.name==='mobile'){
+      assert.equal(await p.locator('#tabs').evaluate(el=>getComputedStyle(el).display),'grid');
+      const visible=await p.locator('#tabs [data-tab]').evaluateAll(nodes=>nodes.every(n=>{const r=n.getBoundingClientRect();return r.width>0&&r.height>0&&r.right<=innerWidth+2&&r.left>=-2}));
+      assert.equal(visible,true,'All six mobile tabs must be visible without horizontal scrolling');
+    }
+
     assert.equal(await p.locator('.stat-card').count(),3);
     assert.match(await p.locator('.demo-warning').innerText(),/fictional/);
     await p.screenshot({path:path.join(evidence,view.name+'-en-home.png'),fullPage:true});
