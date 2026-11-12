@@ -60,6 +60,7 @@ test('SKOON client review dashboard remains interactive, bilingual and isolated'
     assert.match(await p.locator('#projects-link').getAttribute('href'),/lang=ar/);
     await p.screenshot({path:path.join(evidence,view.name+'-ar-collections.png'),fullPage:true});
     await p.locator('#tabs [data-tab=home]').click();
+    assert.equal(await p.evaluate(()=>window.scrollY),0,'Tab navigation resets scroll to page top');
     assert.match(await p.locator('h1').innerText(),/أهلاً/);
     await p.screenshot({path:path.join(evidence,view.name+'-ar-home.png'),fullPage:true});
     await p.locator('#tabs [data-tab=decisions]').click();
