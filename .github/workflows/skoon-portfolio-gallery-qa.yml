@@ -1,0 +1,38 @@
+name: SKOON portfolio bilingual visual QA
+on:
+  push:
+    branches:
+      - feature/skoon-design-portfolio-20261112
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portfolio-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify syntax
+        run: |
+          node --check projects.js
+          node --check app.js
+          node --check website/app.js
+          node --check build-hub/app.js
+          node --check tests/portfolio-gallery-browser.test.cjs
+      - name: Install browser
+        run: npm install --no-save --package-lock=false playwright@1.56.1
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run bilingual portfolio browser QA
+        run: node --test tests/portfolio-gallery-browser.test.cjs
+      - name: Archive visual proofs in QS
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skoon-portfolio-gallery-visual-evidence
+          path: QS/portfolio-gallery-evidence/*.png
+          if-no-files-found: warn
+          retention-days: 14
