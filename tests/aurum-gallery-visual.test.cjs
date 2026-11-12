@@ -32,7 +32,7 @@ test('Aurum image replaces gallery tower throughout bilingual site', {timeout:12
    const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
    try{
     for(const lang of ['en','ar']){
-     await page.goto('http://127.0.0.1:'+server.address().port+'/?lang='+lang,{waitUntil:'networkidle'});
+     await page.goto('http://127.0.0.1:'+server.address().port+'/?office=skip&lang='+lang,{waitUntil:'networkidle'});
      assert.equal(await page.locator('html').getAttribute('lang'),lang);
      assert.equal(await page.locator('html').getAttribute('dir'),lang==='ar'?'rtl':'ltr');
      const photo=page.locator('.gallery img[src="assets/aurum-p256-cover.jpg"]');
@@ -43,6 +43,8 @@ test('Aurum image replaces gallery tower throughout bilingual site', {timeout:12
      assert.equal(await page.locator('.gallery img[src="assets/tower.jpg"]').count(),0);
      assert.match(await photo.getAttribute('alt'),lang==='ar'?/أوروم/:/Aurum/);
      await photo.scrollIntoViewIfNeeded();
+     assert.equal(await page.locator('#skoon-office-overlay').count(),0);
+     await page.locator('.gallery').screenshot({path:path.join(evidence,layout.name+'-'+lang+'-gallery-only.png')});
      await page.screenshot({path:path.join(evidence,layout.name+'-'+lang+'-gallery.png'),fullPage:true});
      await page.goto('http://127.0.0.1:'+server.address().port+'/employee-login.html?lang='+lang,{waitUntil:'networkidle'});
      const login=page.locator('img.login-image');
