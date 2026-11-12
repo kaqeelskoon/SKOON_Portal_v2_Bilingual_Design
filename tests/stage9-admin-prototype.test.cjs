@@ -39,7 +39,22 @@ test('Stage9 independent bilingual browser preview', {timeout:150000},async t=>{
     assert.match(await page.locator('#entries').innerText(),/لا توجد سجلات/);
     await page.locator('[data-tab="access"]').click();
     assert.equal(await page.locator('#access-entries tr').count(),4);
+    assert.match(await page.locator('#boundary-status').textContent(),/مرفوض/);
+    assert.match(await page.locator('#boundary-reasons').innerText(),/سياسة ERP غير معتمدة/);
+    await page.locator('[data-boundary="cross"]').click();
+    assert.equal(await page.locator('[data-boundary="cross"]').getAttribute('aria-pressed'),'true');
+    assert.equal(await page.locator('#boundary-reasons li[data-code="CROSS_COMPANY"]').count(),1);
     await page.screenshot({path:path.join(evidence,view.name+'-ar-access.png'),fullPage:true});
+    await page.screenshot({path:path.join(evidence,view.name+'-ar-boundary-cross-company.png'),fullPage:true});
+    await page.locator('[data-boundary="spoof"]').click();
+    assert.equal(await page.locator('#boundary-reasons li[data-code="ACTOR_MISMATCH"]').count(),1);
+    await page.locator('[data-boundary="unknown"]').click();
+    assert.equal(await page.locator('#boundary-reasons li[data-code="UNVERIFIED_IDENTITY"]').count(),1);
+    await page.locator('#language').click();
+    assert.match(await page.locator('#boundary-status').textContent(),/DENIED/);
+    await page.screenshot({path:path.join(evidence,view.name+'-en-boundary-missing-identity.png'),fullPage:true});
+    await page.locator('#language').click();
+
     await page.locator('[data-tab="migration"]').click();
     assert.equal(await page.locator('.step').count(),5);
     assert.match(await page.locator('#dryrun-status').textContent(),/يحتاج مراجعة/);
