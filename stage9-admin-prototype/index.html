@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKOON Plus | Stage 9 Concept Only</title>
+<style>
+:root{font-family:Inter,Arial,Tahoma,sans-serif;color:#142f2b;background:#f6f8f6;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;min-height:100vh}
+header{background:#103d34;color:#fff;padding:23px clamp(16px,4vw,56px);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-size:22px;font-weight:850;letter-spacing:.1em}.brand small{font-size:10px;display:block;letter-spacing:.26em;color:#afd5c8;margin-top:4px}
+button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #6db9a1;outline-offset:2px}
+.lang{border:1px solid #a5ccc0;background:transparent;color:white;border-radius:22px;padding:9px 17px;font-weight:650}
+.shell{max-width:1260px;margin:0 auto;padding:32px clamp(16px,3.5vw,40px) 70px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;color:#36745c;text-transform:uppercase}
+h1{font-size:clamp(26px,4.1vw,44px);margin:12px 0 8px;line-height:1.19}p{line-height:1.65}.intro{color:#546761;max-width:850px}
+.notice{margin-top:22px;border:1px solid #bcae78;border-radius:12px;padding:14px 18px;background:#fff9e9;color:#604e1b;font-weight:550;font-size:14px}
+.tabs{display:flex;gap:9px;flex-wrap:wrap;margin:27px 0 20px;border-bottom:1px solid #d9e4df;padding-bottom:12px}
+.tab{padding:11px 16px;border-radius:12px;background:white;color:#2d5549;border:1px solid #c9dcd4;font-weight:650}
+.tab[aria-selected=true]{background:#174e3f;color:#fff;border-color:#174e3f}
+section[hidden]{display:none!important}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.panel,.metric{background:#fff;border:1px solid #dae5e0;border-radius:18px;padding:21px;box-shadow:0 6px 23px #103a2b08}
+.metric strong{display:block;font-size:30px;color:#174e3f}.metric span{color:#587168;font-size:13px}
+.section-title{font-size:22px;margin:26px 0 13px}.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:16px 0}
+input{border:1px solid #c8d7d0;padding:12px 14px;border-radius:9px;flex:1;min-width:180px}
+.table-wrap{overflow-x:auto}.listing{border-collapse:collapse;width:100%;min-width:640px}
+th,td{text-align:start;border-bottom:1px solid #e1e9e5;padding:15px 13px;vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#63776f}
+.pill{display:inline-block;border-radius:999px;background:#edf5f1;color:#28614e;padding:5px 9px;font-size:12px;font-weight:650}
+.pill.gray{background:#f2f2f2;color:#66706c}.muted{color:#65766f;font-size:13px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.step{padding:14px;border-bottom:1px solid #edf2ee}
+.step b{display:block;margin-bottom:6px}.step:last-child{border-bottom:none}
+.dryrun{margin-top:20px}.dryrun-head{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+.dryrun-actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.scenario{border:1px solid #abcabf;color:#154f3c;background:#eff8f3;padding:11px 15px;border-radius:10px;font-weight:700}
+.scenario[aria-pressed=true]{background:#154f3c;color:#fff}.finding-block{color:#8b3330;font-weight:800}.finding-review{color:#765a1c;font-weight:800}
+.dryrun-summary{font-weight:750;color:#633b16;background:#fff5dc;border:1px solid #e6d4a6;border-radius:11px;padding:12px;margin:12px 0}
+.dryrun-code{font-size:12px;direction:ltr;unicode-bidi:isolate;display:inline-block;text-align:left}
+.dryrun-caption{font-size:13px;color:#5b7067}.readonly{border-left:4px solid #9d7652;padding:10px 13px;background:#fcf8f3}
+[dir=rtl] .readonly{border-left:0;border-right:4px solid #9d7652}
+@media(max-width:650px){
+  .dryrun .table-wrap{overflow:visible}
+  .dryrun .listing{min-width:0;display:block}
+  .dryrun .listing thead{display:none}
+  .dryrun .listing tbody{display:grid;gap:12px}
+  .dryrun .listing tr{display:block;border:1px solid #d9e5df;border-radius:12px;padding:10px;background:#fff}
+  .dryrun .listing td{display:grid;grid-template-columns:minmax(90px,36%) minmax(0,1fr);gap:8px;align-items:start;padding:7px 3px;min-width:0;overflow-wrap:anywhere}
+  .dryrun .listing td:last-child{border-bottom:0}
+  .dryrun .listing td::before{content:attr(data-label);font-size:12px;font-weight:650;color:#597268}
+  .dryrun .listing td.dryrun-code{display:grid;text-align:start;direction:inherit;unicode-bidi:normal}
+  .dryrun .listing td.dryrun-code span{direction:ltr;unicode-bidi:isolate;display:inline-block;text-align:left;overflow-wrap:anywhere}
+  [dir=rtl] .dryrun .listing td.dryrun-code span{text-align:right}
+  #access .table-wrap{overflow:visible}
+  #access .listing{min-width:0;display:block}
+  #access .listing thead{display:none}
+  #access .listing tbody{display:grid;gap:12px}
+  #access .listing tr{display:block;border:1px solid #d9e5df;border-radius:12px;padding:10px;background:#fff}
+  #access .listing td{display:grid;grid-template-columns:minmax(90px,36%) minmax(0,1fr);gap:8px;align-items:start;padding:7px 3px;min-width:0;overflow-wrap:anywhere}
+  #access .listing td:last-child{border-bottom:0}
+  #access .listing td::before{content:attr(data-label);font-size:12px;font-weight:650;color:#597268}
+
+}
+footer{margin-top:30px;color:#697d74;font-size:12px}
+[dir=rtl] .brand{letter-spacing:0}[dir=rtl] .brand small{letter-spacing:0}
+@media(max-width:650px){.metrics,.split{grid-template-columns:1fr}.shell{padding-top:21px}header{padding:18px}h1{font-size:30px}}
+</style></head>
+<body>
+<header><div class="brand">SKOON<span style="color:#a6d4c3">.AI</span><small id="brand-sub">BUILDING COLLECTIVE</small></div><button type="button" class="lang" id="language">العربية</button></header>
+<main class="shell">
+  <div class="eyebrow" id="eyebrow"></div><h1 id="headline"></h1><p id="intro" class="intro"></p>
+  <div class="notice" id="notice" role="note"></div>
+  <nav class="tabs" aria-label="Prototype sections">
+    <button class="tab" type="button" data-tab="overview" aria-selected="true"></button>
+    <button class="tab" type="button" data-tab="directory" aria-selected="false"></button>
+    <button class="tab" type="button" data-tab="access" aria-selected="false"></button>
+    <button class="tab" type="button" data-tab="migration" aria-selected="false"></button>
+  </nav>
+  <section id="overview"><div class="metrics" id="metrics"></div><h2 class="section-title" id="overview-title"></h2><div class="split" id="overview-panels"></div></section>
+  <section id="directory" hidden><h2 class="section-title" id="directory-title"></h2><div class="toolbar"><input id="search" type="search" autocomplete="off" aria-label="Search" placeholder=""><span class="muted" id="result-count"></span></div><div class="panel table-wrap"><table class="listing"><thead><tr id="columns"></tr></thead><tbody id="entries"></tbody></table></div></section>
+  <section id="access" hidden><h2 class="section-title" id="access-title"></h2><p class="muted" id="access-desc"></p><div class="panel table-wrap"><table class="listing"><thead><tr id="access-columns"></tr></thead><tbody id="access-entries"></tbody></table></div>
+    <div class="panel access-check">
+      <h3 id="boundary-title"></h3><p id="boundary-desc" class="muted"></p>
+      <div id="boundary-options" class="dryrun-actions">
+        <button type="button" class="scenario" data-boundary="nominal" aria-pressed="true"></button>
+        <button type="button" class="scenario" data-boundary="cross" aria-pressed="false"></button>
+        <button type="button" class="scenario" data-boundary="spoof" aria-pressed="false"></button>
+        <button type="button" class="scenario" data-boundary="unknown" aria-pressed="false"></button>
+      </div>
+      <div id="boundary-status" class="dryrun-summary" role="status"></div>
+      <ul id="boundary-reasons"></ul>
+      <p id="boundary-locked" class="readonly"></p>
+    </div>
+  </section>
+  <section id="migration" hidden><h2 class="section-title" id="migration-title"></h2><p class="muted" id="migration-desc"></p><div class="panel" id="migration-steps"></div>
+    <div class="panel dryrun" aria-label="Synthetic preflight preview">
+      <div class="dryrun-head"><h3 id="dryrun-title"></h3><span class="pill gray" id="dryrun-only"></span></div>
+      <p id="dryrun-desc" class="muted"></p>
+      <div class="dryrun-actions" role="group" aria-label="Synthetic test scenarios">
+        <button type="button" class="scenario" data-scenario="conflict" aria-pressed="true"></button>
+        <button type="button" class="scenario" data-scenario="blocked" aria-pressed="false"></button>
+      </div>
+      <div class="dryrun-summary" id="dryrun-status" role="status"></div>
+      <div id="dryrun-stats" class="dryrun-caption"></div>
+      <div class="table-wrap"><table class="listing"><thead><tr id="dryrun-columns"></tr></thead><tbody id="dryrun-findings"></tbody></table></div>
+      <p id="dryrun-lock" class="readonly"></p>
+    </div></section>
+  <footer id="footer"></footer>
+</main>
+<script src="./directory-dry-run.js" defer></script><script src="./access-boundary-review.js" defer></script><script src="./app.js" defer></script>
+</body></html>
