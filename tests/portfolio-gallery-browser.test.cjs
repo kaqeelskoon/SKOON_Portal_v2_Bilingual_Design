@@ -69,9 +69,18 @@ test('SKOON portfolio bilingual navigation and categories desktop/mobile',{timeo
     await page.goto(base+'/website/index.html?lang=ar',{waitUntil:'networkidle'});
     assert.equal(await page.locator('#main-nav a[href*="../projects.html"]').count(),1);
     await page.goto(base+'/',{waitUntil:'networkidle'});
+    await page.evaluate(()=>localStorage.setItem('skoon-hub-lang','en'));
+    await page.goto(base+'/?lang=ar',{waitUntil:'networkidle'});
+    assert.equal(await page.locator('html').getAttribute('lang'),'ar');
+    assert.match(await page.locator('#portfolio-link').getAttribute('href'),/lang=ar/);
+    await page.locator('#lang').click();
+    assert.equal(await page.locator('html').getAttribute('lang'),'en');
+    assert.match(page.url(),/lang=en/);
     const hubLink=page.locator('#portfolio-link');
     assert.equal(await hubLink.count(),1);
     await page.locator('#lang').click();
+    assert.equal(await page.locator('html').getAttribute('lang'),'ar');
+    assert.match(page.url(),/lang=ar/);
     assert.match(await hubLink.innerText(),/مشاريع/);
     assert.match(await hubLink.getAttribute('href'),/lang=ar/);
     await hubLink.click();
